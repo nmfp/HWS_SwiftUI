@@ -16,14 +16,31 @@ struct ContentView: View {
     private let tipValues = [10, 15, 20, 25, 0]
     
     var body: some View {
-        Form {
-            Section {
-                TextField("Amount: ", text: $checkAmount)
-                    .keyboardType(.decimalPad)
-            }
-            Section {
-                Text("$\(checkAmount)")
-            }
+        NavigationView {
+            Form {
+                Section {
+                    TextField("Amount: ", text: $checkAmount)
+                        .keyboardType(.decimalPad)
+                    
+                    Picker("Amount of people", selection: $numberOfPeople) {
+                        ForEach (2 ..< 100) {
+                            Text("\($0) people")
+                        }
+                    }
+                }
+                
+                Section(header: Text("How much tip you want to leave?")) {
+                    Picker("Tip percentage", selection: $tipPercentage) {
+                        ForEach (0 ..< tipValues.count) {
+                            Text("\(self.tipValues[$0])%")
+                        }
+                    }.pickerStyle(SegmentedPickerStyle())
+                }
+                
+                Section {
+                    Text("$\(checkAmount)")
+                }
+            }.navigationBarTitle("WeSplit")
         }
     }
 }
